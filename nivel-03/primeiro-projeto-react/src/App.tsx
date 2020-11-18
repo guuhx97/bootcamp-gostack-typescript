@@ -1,9 +1,14 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-// import { Container } from './styles';
+import Routes from './routes';
 
-const src: React.FC = () => {
-  return <h1>hello word</h1>;
-};
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  );
+}
 
-export default src;
+export default App;
