@@ -1,24 +1,25 @@
 import React, { useCallback, useRef } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import getValidationErrors from '../../utils/getValidationErrors';
 import * as Yup from 'yup';
 
+import getValidationErrors from '../../utils/getValidationErrors';
+import { useAuth } from '../../hooks/AuthContext';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
-import logoImg from '../../assets/logo.svg';
-
 import { Container, Content, Background } from './styles';
-import { FormHandles } from '@unform/core';
+import logoImg from '../../assets/logo.svg';
+import ISignInFormData from '../../interfaces/ISignInFormData';
+
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { user, signIn } = useAuth();
 
-  const handleSubmit = useCallback(async (data: object) => {
+  const handleSubmit = useCallback(async (data: ISignInFormData) => {
     try {
       formRef.current?.setErrors({});
-
       const schema = Yup.object().shape({
         email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
         password: Yup.string().required('Senha obrigatória'),
@@ -27,12 +28,13 @@ const SignIn: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false
       });
+      signIn({email: data.email, password: data.password});
     }catch(err){
       console.log(err);
       const errors = getValidationErrors(err);
       formRef.current?.setErrors(errors);
     }
-  }, []);
+  }, [signIn]);
 
   return (
     <Container>
