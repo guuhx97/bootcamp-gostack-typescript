@@ -10,6 +10,7 @@ import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 interface ISignInFormData {
   email: string;
@@ -36,10 +37,10 @@ const SignUp: React.FC = () => {
         abortEarly: false
       });
 
-      // await api.post('/users', data);
-      // history.push('/');
-
+      await api.post('/users', data);
       Alert.alert('Cadastro realizado', 'Você já pode fazer seu logon no GoBarber');
+      navigation.navigate('SignIn');
+
     }catch(err){
       if(err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -47,7 +48,6 @@ const SignUp: React.FC = () => {
         Alert.alert('Erro no cadastro', 'Ocorreu um erro ao fazer cadastro, tente novamente');
         return;
       }
-
     }
   }, []);
 

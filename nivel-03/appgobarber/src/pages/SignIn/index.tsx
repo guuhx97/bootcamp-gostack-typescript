@@ -10,6 +10,8 @@ import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
 import { Container, Title, ForgotPassword, ForgotPasswordText, CreateAccountButton, CreateAccountButtonText } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { useAuth } from '../../hooks/auth';
+
 
 interface ISignInFormData {
   email: string;
@@ -20,6 +22,8 @@ const SignIn: React.FC = () => {
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
+
+  const { signIn } = useAuth();
 
   const handleSubmit = useCallback(async (data: ISignInFormData) => {
     try {
@@ -32,8 +36,8 @@ const SignIn: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false
       });
-      // await signIn({email: data.email, password: data.password});
-      // history.push('/dashboard');
+      await signIn({email: data.email, password: data.password});
+
     }catch(err){
       if(err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -43,7 +47,7 @@ const SignIn: React.FC = () => {
       }
       Alert.alert('Erro na autenticação', 'Ocorreu um erro ao fazer login, cheque as credenciais');
     }
-  }, []);
+  }, [SignIn]);
 
   return (
     <>
