@@ -1,7 +1,9 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { pathsToModuleNameMapper } from 'ts-jest/utils';
-import * as compilerOptions from './tsconfig.json';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { compilerOptions } = require('./tsconfig.json');
 
-export default {
+module.exports = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -79,7 +81,7 @@ export default {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions, {
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/src/',
   }),
 
