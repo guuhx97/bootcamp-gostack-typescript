@@ -1,10 +1,12 @@
-import AppError from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
-import User from '../infra/typeorm/entities/User';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
-import IUserRepository from '../repositories/IUserRepository';
+import { injectable, inject } from 'tsyringe';
 
-interface IRequestDTO {
+import AppError from '@shared/errors/AppError';
+
+import User from '../infra/typeorm/entities/User';
+import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+
+interface IRequest {
   name: string;
   email: string;
   password: string;
@@ -14,17 +16,17 @@ interface IRequestDTO {
 class CreateUserService {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUserRepository,
+    private usersRepository: IUsersRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}
 
-  async execute({ name, email, password }: IRequestDTO): Promise<User> {
-    const checkUserExist = await this.usersRepository.findByEmail(email);
+  public async execute({ name, email, password }: IRequest): Promise<User> {
+    const checkUserExists = await this.usersRepository.findByEmail(email);
 
-    if (checkUserExist) {
-      throw new AppError('Email address already used');
+    if (checkUserExists) {
+      throw new AppError('Email address already used.');
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
@@ -34,8 +36,6 @@ class CreateUserService {
       email,
       password: hashedPassword,
     });
-
-    await this.usersRepository.save(user);
 
     return user;
   }

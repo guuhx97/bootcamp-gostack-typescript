@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { isAfter, addHours } from 'date-fns';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
-import IUserRepository from '../repositories/IUserRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
 interface IRequestDTO {
@@ -11,15 +11,15 @@ interface IRequestDTO {
 }
 
 @injectable()
-class SendForgotPasswordEmailService {
+class ResetPasswordService {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUserRepository,
+    private usersRepository: IUsersRepository,
 
     @inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository,
 
-    @inject('hashProvider')
+    @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}
 
@@ -28,8 +28,9 @@ class SendForgotPasswordEmailService {
     if (!userToken) {
       throw new AppError('User token does not exist');
     }
-
+    console.log(userToken);
     const user = await this.usersRepository.findById(userToken.user_id);
+    console.log(user);
     if (!user) {
       throw new AppError('User does not exist');
     }
@@ -47,4 +48,4 @@ class SendForgotPasswordEmailService {
   }
 }
 
-export default SendForgotPasswordEmailService;
+export default ResetPasswordService;

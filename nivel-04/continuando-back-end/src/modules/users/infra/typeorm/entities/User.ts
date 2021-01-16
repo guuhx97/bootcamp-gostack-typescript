@@ -1,6 +1,6 @@
 import {
-  Column,
   Entity,
+  Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
@@ -18,10 +18,10 @@ class User {
   email: string;
 
   @Column()
-  avatar: string;
+  password: string;
 
   @Column()
-  password: string;
+  avatar: string;
 
   @CreateDateColumn()
   created_at: Date;

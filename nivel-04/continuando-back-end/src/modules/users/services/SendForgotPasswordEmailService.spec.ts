@@ -62,11 +62,3 @@ describe('SendForgotPasswordEmail', () => {
     expect(generateToken).toHaveBeenCalledWith(user.id);
   });
 });
-
-/**
- * Meu nome é Gustavo, tenho 23 anos. Sou formado em Ciência da computação
- * Atualmente estou cursando MBA em engenharia de software. Tenho uma grande
- * paixão por tecnologia e no ultimo ano esse amor também cresceu na área
- * de empreendedorismo. Atualmente, apesar das minhas formações tenho o sonho
- * de abrir um negócio na área de técnologia.
- */
