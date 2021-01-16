@@ -6,7 +6,7 @@ import AppointmentController from '../controllers/AppointmentController';
 const appointmentsRouter = Router();
 const appointmentsController = new AppointmentController();
 
-// appointmentsRouter.use(ensureAuthenticated);
+appointmentsRouter.use(ensureAuthenticated);
 
 appointmentsRouter.post('/', appointmentsController.create);
 
