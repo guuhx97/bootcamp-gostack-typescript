@@ -28,9 +28,7 @@ class ResetPasswordService {
     if (!userToken) {
       throw new AppError('User token does not exist');
     }
-    console.log(userToken);
     const user = await this.usersRepository.findById(userToken.user_id);
-    console.log(user);
     if (!user) {
       throw new AppError('User does not exist');
     }

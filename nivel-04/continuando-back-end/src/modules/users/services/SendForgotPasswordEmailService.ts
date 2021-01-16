@@ -25,7 +25,6 @@ class SendForgotPasswordEmailService {
   async execute({ email }: IRequestDTO): Promise<void> {
     const user = await this.usersRepository.findByEmail(email);
 
-    console.log('testse');
     if (!user) {
       throw new AppError('User does not exist');
     }
